@@ -4,7 +4,6 @@ import { Button, StyleSheet, Text, View } from "react-native";
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
       <Button
         title="Go to Maps"
         onPress={() => navigation.navigate("Locations")}
@@ -18,6 +17,11 @@ export default function HomeScreen({ navigation }) {
       <Button
         title="Go to Retinopathy"
         onPress={() => navigation.navigate("Retinopathy")}
+      />
+
+      <Button
+        title="Go to Hospital Clinical Trails"
+        onPress={() => navigation.navigate("ClinicalTrails")}
       />
     </View>
   );

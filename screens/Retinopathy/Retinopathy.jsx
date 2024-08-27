@@ -4,6 +4,7 @@ import {
   TextInput,
   View,
   Button,
+  Image,
   Text,
   Alert,
   TouchableOpacity,
@@ -12,7 +13,8 @@ import {
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import * as ImagePicker from "expo-image-picker";
 export default function Retinopathy() {
   const navigation = useNavigation();
   const [gender, setGender] = useState("");
@@ -23,9 +25,36 @@ export default function Retinopathy() {
   const [avgGlucose, setAvgGlucose] = useState("");
   const [diagnosisYear, setDiagnosisYear] = useState("");
   const [prediction, setPrediction] = useState("");
+  const [image, setImage] = useState(null);
   const [form, setForm] = useState({
     "Diabetes Type": ["Type 2"],
   });
+
+  const pickImageGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      base64: true,
+      allowsMultipleSelection: false,
+    });
+    if (!result.canceled) {
+      performOCR(result.assets[0]);
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const pickImageCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      base64: true,
+      allowsMultipleSelection: false,
+    });
+    if (!result.canceled) {
+      performOCR(result.assets[0]);
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -123,6 +152,39 @@ export default function Retinopathy() {
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <ScrollView>
         <View style={styles.container}>
+          {/* Image Picker UI */}
+          <TouchableOpacity
+            style={styles.imagePicker}
+            onPress={pickImageGallery}
+          >
+            <View style={styles.imagePlaceholder}>
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: "100%", height: "100%" }}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Text style={styles.imagePickerText}>
+                  <FontAwesome name="photo" size={24} color="#ccc" /> Select
+                  file
+                </Text>
+              )}
+            </View>
+          </TouchableOpacity>
+
+          <Text style={styles.orText}>or</Text>
+
+          <TouchableOpacity
+            style={styles.cameraButton}
+            onPress={pickImageCamera}
+          >
+            <Text style={styles.cameraButtonText}>
+              <FontAwesome name="camera" size={20} color="007BFF" /> Open Camera
+              & Take Photo
+            </Text>
+          </TouchableOpacity>
+
           <View style={styles.inputContainer}>
             <View style={styles.row}>
               <View style={styles.inputGroup}>
@@ -288,6 +350,44 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
+    fontSize: 16,
+  },
+
+  imagePicker: {
+    width: "80%",
+    height: 150,
+    borderRadius: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  imagePlaceholder: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imagePickerText: {
+    fontSize: 16,
+    color: "#999",
+  },
+  orText: {
+    fontSize: 16,
+    color: "#999",
+    marginVertical: 10,
+  },
+  cameraButton: {
+    width: "80%",
+    paddingVertical: 15,
+    borderRadius: 5,
+    backgroundColor: "#E0F7FA",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  cameraButtonText: {
+    color: "#007BFF",
     fontSize: 16,
   },
   button: {

@@ -10,6 +10,7 @@ import Retinopathy from './screens/Retinopathy/Retinopathy';
 import RetinopathyResult from './screens/Retinopathy/RetinopathyResult';
 import HealthTips from './screens/Retinopathy/HealthTips';
 import NextScreening from './screens/Retinopathy/NextScreening';
+import PatientDataEntry from './screens/ClinicalTrails/PatientDataEntry';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name="Diabatic" component={Diabatic} />
         <Stack.Screen name="HealthTips" component={HealthTips} />
         <Stack.Screen name="NextScreening" component={NextScreening} />
+        <Stack.Screen name="ClinicalTrails" component={PatientDataEntry} />
       </Stack.Navigator>
     </NavigationContainer>
   );

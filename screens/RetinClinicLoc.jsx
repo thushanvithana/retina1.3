@@ -69,7 +69,7 @@ export default function RetinClinicLoc({ navigation }) {
       if (nearestPharmacy) {
         await fetchRoute(location.coords, nearestPharmacy);
       } else {
-        setErrorMessage("No pharmacies found.");
+        setErrorMessage("No Retinopathy Clinicals found.");
       }
     } catch (error) {
       setErrorMessage("Error getting live location: " + error.message);
@@ -127,7 +127,7 @@ export default function RetinClinicLoc({ navigation }) {
         const url = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destLat},${destLng}&travelmode=driving`;
         Linking.openURL(url);
       } else {
-        setErrorMessage("No pharmacies found.");
+        setErrorMessage("No Retinopathy Clinical found.");
       }
     } else {
       setErrorMessage("User location or pharmacy locations not available.");
@@ -204,7 +204,7 @@ export default function RetinClinicLoc({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pharmacy Map</Text>
+      <Text style={styles.title}>Live Retinopathy Clinical Locations</Text>
       <MapView style={styles.map} initialRegion={mapRegion}>
         {pharmacyLocations.map((location) => (
           <Marker
@@ -236,7 +236,7 @@ export default function RetinClinicLoc({ navigation }) {
       </MapView>
       <TouchableOpacity style={styles.button} onPress={handleShowLiveLocation}>
         <Text style={styles.buttonText}>
-          Navigate to Nearest Diabatic Clinic
+          Navigate to Nearest Diabatic Retinopathy Clinic
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleOpenGoogleMaps}>
